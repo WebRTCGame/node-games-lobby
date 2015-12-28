@@ -26,7 +26,8 @@
 //             will be used.
 // --------------------------------------------------
 'use strict';
-
+console.log("PORT: " + process.env.PORT);
+console.log("IP: " + process.env.IP);
 var
   http = require('http'),                          // Required for initialising express server.
   path = require('path'),                          // Required for OS-independency (path.join).
@@ -133,12 +134,20 @@ var server = http.createServer(app).listen(app.get('port'), function() {
 var socketio = Socketio.listen(server);
 
 // No websockets.
+/*
 socketio.set('transports', [
   'flashsocket',
   'htmlfile',
   'xhr-polling',
   'jsonp-polling'
 ]);
+*/
+socketio.set('transports',['websocket', 
+                      'flashsocket', 
+                      'htmlfile', 
+                      'xhr-polling', 
+                      'jsonp-polling', 
+                      'polling']);
 
 // Default logging.
 socketio.set('log level', 2);

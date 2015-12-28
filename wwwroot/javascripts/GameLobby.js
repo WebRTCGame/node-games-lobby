@@ -4,7 +4,7 @@
 //
 define([], function() {
   // Pass in a instance of the command center.
-  function GameLobby (commandCenter, options) {
+  function GameLobby(commandCenter, options) {
     this.commandCenter = commandCenter;
 
     // jQuery elements.
@@ -15,8 +15,12 @@ define([], function() {
     console.log("options", options);
 
     // Commands.
-    commandCenter.addCommand('listGames', function() { commandCenter.emit('listGames'); });
-    commandCenter.addCommand('listMatches', function() { commandCenter.emit('listMatches'); });
+    commandCenter.addCommand('listGames', function() {
+      commandCenter.emit('listGames');
+    });
+    commandCenter.addCommand('listMatches', function() {
+      commandCenter.emit('listMatches');
+    });
     commandCenter.addCommand('createMatch', this.createMatch.bind(this));
     commandCenter.addCommand('joinMatch', this.joinMatch.bind(this));
     commandCenter.addCommand('record', this.playerRecord.bind(this));
@@ -97,11 +101,11 @@ define([], function() {
   GameLobby.prototype.roomMatchList = function(eventData) {
     this.roomMatchListUl.html('');
 
-    var joinMatch = function (matchID) {
+    var joinMatch = function(matchID) {
       console.log("Trying to join %s", matchID);
-        this.commandCenter.emit('joinMatch', {
-          matchID: matchID
-        });
+      this.commandCenter.emit('joinMatch', {
+        matchID: matchID
+      });
     }.bind(this);
 
     for (var i = 0; i < eventData.length; i += 1) {
@@ -109,7 +113,7 @@ define([], function() {
       var matchElem = $('<li class="match"><div class="matchContainer">' +
         '<img class="gameIcon" src="img/games/' +
         match.gameID + '/icon.png" /><div class="matchText">' +
-        match.gameID +' by ' + match.owner +
+        match.gameID + ' by ' + match.owner +
         '</div></div></li>').appendTo(this.roomMatchListUl);
 
       matchElem.click(joinMatch.bind(this, match.id));
@@ -118,4 +122,3 @@ define([], function() {
 
   return GameLobby;
 });
-
